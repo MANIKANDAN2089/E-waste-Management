@@ -8,8 +8,8 @@ const consultSchema = new mongoose.Schema({
   category: String,
   description: String,
   preferredDate: Date,
-  mode: { type: String, enum: ['call','video','in-person'], default: 'call' },
-  status: { type: String, enum: ['pending','scheduled','completed','cancelled'], default: 'pending' },
+  mode: { type: String, enum: ['call', 'video', 'in-person'], default: 'call' },
+  status: { type: String, enum: ['pending', 'approved', 'completed', 'cancelled'], default: 'pending' }, // ✅ fixed enum
   assignedExpert: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   notes: String
 }, { timestamps: true });

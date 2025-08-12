@@ -8,6 +8,7 @@ export default function Chatbot() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -16,6 +17,18 @@ export default function Chatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [input]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -55,6 +68,13 @@ export default function Chatbot() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(e);
+    }
+  };
+
   return (
     <div className="chatbot-container">
       <div className="chat-header">
@@ -84,14 +104,17 @@ export default function Chatbot() {
         <div ref={messagesEndRef} />
       </div>
       <form onSubmit={sendMessage} className="chat-input">
-        <input
+        <textarea
+          ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask me anything about e-waste..."
+          onKeyDown={handleKeyDown}
+          placeholder="Type a message... (Shift+Enter for new line)"
+          rows={1}
           disabled={loading}
         />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Sending...' : 'Send'}
+        <button type="submit" disabled={loading || !input.trim()}>
+          {loading ? '...' : 'Send'}
         </button>
       </form>
     </div>

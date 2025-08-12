@@ -8,7 +8,7 @@ const pickupSchema = new mongoose.Schema({
   address: String,
   preferredDate: Date,
   items: String,
-  status: { type: String, enum: ['pending','accepted','completed','cancelled'], default: 'pending' }
+  status: { type: String, enum: ['pending','approved','completed','cancelled'], default: 'pending' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Pickup', pickupSchema);

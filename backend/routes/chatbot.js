@@ -20,10 +20,10 @@ Question: ${question}
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
-    return { answer: text, source: 'gemini', confidence: 0.95 };
+    return { answer: text, source: 'gemini'};
   } catch (error) {
     console.error('Gemini API error:', error);
-    return { answer: "Sorry, I'm having trouble connecting to Gemini AI right now.", source: 'error', confidence: 0 };
+    return { answer: "Sorry, I'm having trouble connecting to Gemini AI right now.", source: 'error' };
   }
 }
 
